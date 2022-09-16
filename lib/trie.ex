@@ -20,7 +20,7 @@ defmodule MerklePatriciaTree.Trie do
   @type key :: binary() | [integer()]
 
   @empty_trie <<>>
-  @empty_trie_root_hash @empty_trie |> ExRLP.encode() |> :keccakf1600.sha3_256()
+  @empty_trie_root_hash @empty_trie |> ExRLP.encode() |> ExKeccak.hash_256()
 
   @doc """
   Returns the canonical empty trie.
@@ -49,16 +49,16 @@ defmodule MerklePatriciaTree.Trie do
     iex> MerklePatriciaTree.Trie.new(MerklePatriciaTree.Test.random_ets_db(:trie_test_2), <<1, 2, 3>>)
     %MerklePatriciaTree.Trie{db: {MerklePatriciaTree.DB.ETS, :trie_test_2}, root_hash: <<241, 136, 94, 218, 84, 183, 160, 83, 49, 140, 212, 30, 32, 147, 34, 13, 171, 21, 214, 83, 129, 177, 21, 122, 54, 51, 168, 59, 253, 92, 146, 57>>}
 
-    iex> trie = MerklePatriciaTree.Trie.new(MerklePatriciaTree.DB.LevelDB.init("/tmp/#{
+    iex> trie = MerklePatriciaTree.Trie.new(MerklePatriciaTree.DB.ETS.init(String.to_atom("#{
     MerklePatriciaTree.Test.random_string(20)
-  }"), <<1, 2, 3>>)
+  }")), <<1, 2, 3>>)
     iex> trie.root_hash
     <<241, 136, 94, 218, 84, 183, 160, 83, 49, 140, 212, 30, 32, 147, 34,
       13, 171, 21, 214, 83, 129, 177, 21, 122, 54, 51, 168, 59, 253, 92,
       146, 57>>
     iex> {db, _db_ref} = trie.db
     iex> db
-    MerklePatriciaTree.DB.LevelDB
+    MerklePatriciaTree.DB.ETS
   """
   @spec new(DB.db(), root_hash) :: __MODULE__.t()
   def new(db = {_, _}, root_hash \\ @empty_trie) do

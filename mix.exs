@@ -42,13 +42,12 @@ defmodule MerklePatriciaTree.Mixfile do
   defp deps do
     [
       {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false},
-      {:jason, "~> 1.1", only: [:dev, :test], runtime: false},
+      {:jason, "~> 1.4", runtime: false},
       {:ex_doc, "~> 0.19", only: :dev, runtime: false},
       {:hex_prefix, "~> 0.1.0"},
-      {:ex_rlp, "~> 0.5.2"},
-      {:keccakf1600, "~> 2.0.0", hex: :keccakf1600_orig},
-      {:exleveldb, "~> 0.13"},
-      {:dialyxir, "~> 1.0.0-rc.4", only: [:dev], runtime: false}
+      {:ex_rlp, "~> 0.5.4"},
+       {:ex_keccak, "~> 0.6.0"},
+      {:dialyxir, "~> 1.0.0", only: [:dev], runtime: false}
     ]
   end
 end

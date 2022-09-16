@@ -18,7 +18,7 @@ defmodule MerklePatriciaTree.TrieTest do
   end
 
   def store(node_value, db) do
-    node_hash = :keccakf1600.sha3_256(node_value)
+    node_hash = ExKeccak.hash_256(node_value)
     MerklePatriciaTree.DB.put!(db, node_hash, node_value)
 
     node_hash
